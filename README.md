@@ -4,15 +4,15 @@ Swiss national licences preprocessing
 Project Description
 --------------------------
 
-The prototype aims to find all articles published in journals of the four publishers Springer, De Gruyter, Oxford University Press and Cambridge University Press that are affiliated to a Swiss university. It searches all articles on the condition that an author is affiliated to a given Swiss university, compares the result with the standardised title journal lists provided by the Consortium of Swiss Academic Libraries (CSAL) and checks whether the articles found can be uploaded to the repositories of CSAL members in accordance with the negotiated Swiss national licences.
+The prototype aims to find all articles published in journals of the four publishers Springer, De Gruyter, Oxford University Press and Cambridge University Press that are affiliated with a Swiss university. It searches all articles on the condition that an author is affiliated with a given Swiss university, compares the result with the standardised title journal lists provided by the Consortium of Swiss Academic Libraries (CSAL) and checks whether the articles found can be uploaded to the repositories of CSAL members in accordance with the negotiated Swiss national licences.
 
 The result is a list of bibliographic metadata that facilitates the inclusion of missing article metadata in Swiss university repositories and facilitates full-text searching for the respective articles.
 
 
-**Download and merging CSAL journal list**
+**Download and merge CSAL journal lists**
 
 The Python script "recent-CSAL-journal-lists" downloads the four first files provided on the website https://consortium.ch/title-lists-for-swiss-national-licences/?lang=en of the CSAL that are stored under a link beginning with"https://github.com/swissbib/metadataNationalLicences/raw/master/title-lists/".
-The script than merges all 4 files into one with the following columns from the original excel files.
+The script merges all 4 files into one with the following columns from the original excel files.
 
 - "print_identifier",
 - "online_identifier",
@@ -27,7 +27,7 @@ The script than merges all 4 files into one with the following columns from the 
 
 **Search in OpenAlex Springer, De Gruyter, Oxford University Press and Cambridge University articles of authors belonging to a Swiss HEI**
 
-The Python scripts "search-articles-OpenAlex-names" and "..._ror" build a search query for the API of OpenAlex working either with the ROR ID a search parameter or a phrase search based on name variants of an institution. The result list ist looped through and added with information about the corresponding author's institution, if OpenAlex includes information about the correspondance status. All articles are exported into two CSV files. The table contains the following columns:
+The Python scripts "search-articles-OpenAlex-names" and "..._ror" build a search query for the API of OpenAlex working either with the ROR ID a search parameter or a phrase search based on name variants of an institution. The result list is looped through and added with information about the corresponding author's institution, if OpenAlex includes information about the correspondence status. All articles are exported into two CSV files. The table contains the following columns:
 
 - Doi 
 (data type: string ; example: https://doi.org/10.1038/s41380-022-01661-0)
@@ -48,13 +48,13 @@ The Python scripts "search-articles-OpenAlex-names" and "..._ror" build a search
 - Affiliation_corr.author_raw 
 (multiple affiliations are seperated with ";" , data type: list, example: ['Environmental Genomics and Systems Biology Research Group, Institute for Natural Resource Sciences, Zurich University of Applied Sciences (ZHAW), Wädenswil, Switzerland'])
 
-Both CSV files are merged together with the script "combine-article-lists-OpenAlex". Duplicates based on values in the column "Doi" are deleted and saved as single CSV.
+Both CSV files are merged together with the script "combine-article-lists-OpenAlex". Duplicates based on values in the column "Doi" are deleted and saved as a single CSV.
 
 
-**Compare OpenAlex results with journal lists of CSAL and articles already indexed in institutional repository**
+**Compare OpenAlex results with journal lists of CSAL and articles already indexed in the institutional repository**
 
-The Python script "compare-article-lists-OpenAlex-repository-csal" compares the DOIs in the OpenAlex list with a list of DOIs of publications already indexed in a repository. It adds the column "in-repository" to the OpenAlex article-list with boolean value "True" if the ApenALex-DOI can be found in the repository DOIs as well or "False" in case it could not be found. Afterward it deletes all articles that are already in the repository. 
-It then saves all articles published as Open Access articles in a separate dataframe. The articles left are checked if they were published in a journal covered by a Swiss national licence based on the print or online ISSN and if the article was published in a period covered by the Swiss national licence based on the publication year. The article list is filtered again for those articles were both conditions are True (in journal and in correct period published). At the end the dataframe with all articles already published OA and the articles covered by the national licences are put in one dataframe and saved as CSV. These articles could be stored in the repository afterwards, after a final manual check (especially for corresponding auhtors of Springer articles).
+The Python script "compare-article-lists-OpenAlex-repository-csal" compares the DOIs in the OpenAlex list with a list of DOIs of publications already indexed in a repository. It adds the column "in-repository" to the OpenAlex article-list with the boolean value "True" if the ApenALex-DOI can be found in the repository DOIs as well or "False" in case it could not be found. Afterwards, it deletes all articles that are already in the repository. 
+It then saves all articles published as Open Access articles in a separate data frame. The articles left are checked if they were published in a journal covered by a Swiss national licence based on the print or online ISSN and if the article was published in a period covered by the Swiss national licence based on the publication year. The article list is filtered again for those articles where both conditions are True (in journal and in correct period published). At the end, the data frame with all articles already published OA and the articles covered by the national licences are put in one data frame and saved as CSV. These articles could be stored in the repository afterwards, after a final manual check (especially for corresponding authors of Springer articles).
 
 - Doi 
 (data type: string ; example: https://doi.org/10.1038/s41380-022-01661-0)
@@ -98,7 +98,7 @@ _Before running the scripts, follow these steps:_
 These variables should be changed in any case:
 
 [Institution]
-list of name variants of Swiss higher education institution, names that consists of more than one word need to be written in parantheses, seperator is "|"
+list of name variants of Swiss higher education institution, names that consist of more than one word need to be written in parentheses, separator is "|"
 example
 names = ZHAW|"Zurich University of Applied Sciences"|"Zürcher Hochschule für Angewandte Wissenschaften"
 
@@ -111,7 +111,7 @@ example
 email = xyz@zhaw.ch
 
 [Publication]
-time span of creation date of publications searched, formatted as yyyy-mm-dd
+time span of the creation date of publications searched, formatted as yyyy-mm-dd
 example
 from_published_date = 2015-01-01
 to_published_date = 2023-12-31
@@ -155,7 +155,7 @@ The check to see if an article was published in a period covered by the national
 
 
 **Sources**
-OpenAlex documentation of their API, especially fo the entity works: https://docs.openalex.org/api-entities/works 
+OpenAlex documentation of their API, especially for the entity works: https://docs.openalex.org/api-entities/works 
 CSAL documentation about Swiss national licences: https://consortium.ch/nationallizenzen/?lang=en
 
 
