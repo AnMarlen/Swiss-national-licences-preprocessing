@@ -98,32 +98,50 @@ _Before running the scripts, follow these steps:_
 These variables should be changed in any case:
 
 [Institution]
+
 list of name variants of Swiss higher education institution, names that consist of more than one word need to be written in parentheses, separator is "|"
+
 example
+
 names = ZHAW|"Zurich University of Applied Sciences"|"Zürcher Hochschule für Angewandte Wissenschaften"
 
+
 ROR-ID of the authors' institution publications are searched
+
 example
+
 ror_id = https://ror.org/05pmsvm27
 
+
 contact e-mail for authentification in OpenAlex API request
+
 example
+
 email = xyz@zhaw.ch
 
+
 [Publication]
+
 time span of the creation date of publications searched, formatted as yyyy-mm-dd
+
 example
+
 from_published_date = 2015-01-01
 to_published_date = 2023-12-31
 
+
 [Repository]
+
 name of CSV where DOIs of repository are stored
+
 file_repository = digitalcollection.csv
 
 header of column in CSV-file, where DOI of article in repository is stored for comparison with OpenAlex results
+
 column_doi = DOI_ZHAW
 
 name of file of final results of articles to be ingested in repository
+
 file_ingest = ingest-national-licences.csv
 
 
@@ -155,9 +173,11 @@ The check to see if an article was published in a period covered by the national
 
 
 **Sources**
-OpenAlex documentation of their API, especially for the entity works: https://docs.openalex.org/api-entities/works 
-CSAL documentation about Swiss national licences: https://consortium.ch/nationallizenzen/?lang=en
+
+- OpenAlex documentation of their API, especially for the entity works: https://docs.openalex.org/api-entities/works 
+- CSAL documentation about Swiss national licences: https://consortium.ch/nationallizenzen/?lang=en
 
 
 **Contributing**
+
 Feel free to contribute by opening pull requests or reporting issues.
