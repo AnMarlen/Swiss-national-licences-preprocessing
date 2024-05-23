@@ -76,7 +76,7 @@ def institution_corresponding_raw(authorships):
     Loop through all authorship objects for every article.
     Return only the raw_affiliation_string of corresponding authors.
     """
-    return[element["raw_affiliation_string"] 
+    return[element["raw_affiliation_strings"] 
            for element in authorships if element["is_corresponding"] == True]
 
 # dataframe for results
