@@ -28,7 +28,7 @@ def build_institution_works(names, publishers):
 
     # build the "filter" parameter
     filters = (
-        f"raw_affiliation_string.search:{names}",
+        f"raw_affiliation_strings.search:{names}",
         "is_paratext:false",
         "type:article", 
         f"from_publication_date:{date_start},to_publication_date:{date_end}",
@@ -59,7 +59,7 @@ def corresponding(authorships):
 
 def institution_corresponding(affiliation_complete):
     """
-    Loop through all lists of institutions of the correspondings authors. 
+    Loop through all lists of institutions of the corresponding authors. 
     Return the element "display_name".
     """
     affiliations = []
@@ -76,7 +76,7 @@ def institution_corresponding_raw(authorships):
     Loop through all authorship objects for every article.
     Return only the raw_affiliation_string of corresponding authors.
     """
-    return[element["raw_affiliation_string"] 
+    return[element["raw_affiliation_strings"] 
            for element in authorships if element["is_corresponding"] == True]
 
 # dataframe for results
