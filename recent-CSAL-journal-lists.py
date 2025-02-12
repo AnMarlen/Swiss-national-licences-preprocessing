@@ -58,7 +58,7 @@ dataframes = []
 for i in range(len(file_names)):
     df = pd.read_excel(f"{path}{file_names[i]}")
     
-    if "Degruyter" in file_names[i]:
+    if "degruyter" or "Degruyter" in file_names[i]:
         df.columns = df.columns.str.lower()
         df["date_first_issue_online"] = df["date_first_issue_online"].astype(str) 
         df["date_first_issue_online"] = df["date_first_issue_online"].str.split("-").str[0]
