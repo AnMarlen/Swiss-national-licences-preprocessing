@@ -36,7 +36,7 @@ The Python scripts "search-articles-OpenAlex-names" and "..._ror" build a search
 - Year 
 (data type integer ; pattern YYYY; example: 2022)
 - OA 
-(data type: boolean ; True in case the articles is published Open Access by the publisher, False in case article is published closed)
+(data type: string ; "gold","diamond","hybrid","green","bronze", "closed")
 - Publisher 
 (data type: string ; example: Springer Nature)
 - Journal
@@ -48,13 +48,14 @@ The Python scripts "search-articles-OpenAlex-names" and "..._ror" build a search
 - Affiliation_corr.author_raw 
 (multiple affiliations are seperated with ";" , data type: list, example: ['Environmental Genomics and Systems Biology Research Group, Institute for Natural Resource Sciences, Zurich University of Applied Sciences (ZHAW), Wädenswil, Switzerland'])
 
-Both CSV files are merged together with the script "combine-article-lists-OpenAlex". Duplicates based on values in the column "Doi" are deleted and saved as a single CSV.
+Both CSV files are merged with the script "combine-article-lists-OpenAlex". Duplicates based on values in the column "Doi" are deleted and saved as a single CSV.
 
 
 **Compare OpenAlex results with journal lists of CSAL and articles already indexed in the institutional repository**
 
-The Python script "compare-article-lists-OpenAlex-repository-csal" compares the DOIs in the OpenAlex list with a list of DOIs of publications already indexed in a repository. It adds the column "in-repository" to the OpenAlex article-list with the boolean value "True" if the ApenALex-DOI can be found in the repository DOIs as well or "False" in case it could not be found. Afterwards, it deletes all articles that are already in the repository. 
+The Python script "compare-article-lists-OpenAlex-repository-csal" compares the DOIs in the OpenAlex list with a list of DOIs of publications already indexed in a repository. It adds the column "in-repository" to the OpenAlex article-list with the boolean value "True" if the OpenALex-DOI can be found in the repository DOIs as well or "False" in case it could not be found. Afterwards, it deletes all articles that are already in the repository. 
 It then saves all articles published as Open Access articles in a separate data frame. The articles left are checked if they were published in a journal covered by a Swiss national licence based on the print or online ISSN and if the article was published in a period covered by the Swiss national licence based on the publication year. The article list is filtered again for those articles where both conditions are True (in journal and in correct period published). At the end, the data frame with all articles already published OA and the articles covered by the national licences are put in one data frame and saved as CSV. These articles could be stored in the repository afterwards, after a final manual check (especially for corresponding authors of Springer articles).
+The table contains the following columns:
 
 - Doi 
 (data type: string ; example: https://doi.org/10.1038/s41380-022-01661-0)
@@ -63,7 +64,7 @@ It then saves all articles published as Open Access articles in a separate data 
 - Year 
 (data type integer ; pattern YYYY; example: 2022)
 - OA 
-(data type: boolean ; "True" in case the articles is published Open Access by the publisher, "False" in case article is published closed)
+(data type: string ; "gold","diamond","hybrid","green","bronze", "closed")
 - Publisher 
 (data type: string ; example: Springer Nature)
 - Journal
@@ -82,10 +83,6 @@ It then saves all articles published as Open Access articles in a separate data 
 (data type: boolean ; True in case the articles is published in a journal with a print ISSN matches print ISSN in CSAL list, False in case article is not)
 - period
 (data type: boolean ; True in case the articles is published in a timeframe that is covered in national licence, False in case article is not)
-
-The following columns, along with their respective values, were added with the help of the Python script:
-
-
 
 
 How to Install and Run the Projects
