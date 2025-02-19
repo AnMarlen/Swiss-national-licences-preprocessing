@@ -60,12 +60,14 @@ for i in range(len(file_names)):
     
     if "degruyter" or "Degruyter" in file_names[i]:
         df.columns = df.columns.str.lower()
+        df.drop(df[pd.isnull(df.date_first_issue_online) == True].index, inplace=True)
+        df.drop(df[pd.isnull(df.date_last_issue_online) == True].index, inplace=True)
         df["date_first_issue_online"] = df["date_first_issue_online"].astype(str) 
         df["date_first_issue_online"] = df["date_first_issue_online"].str.split("-").str[0]
         df["date_first_issue_online"] = df["date_first_issue_online"].astype(int)
-        df["date_last_issue_online"] = df["date_first_issue_online"].astype(str)  
+        df["date_last_issue_online"] = df["date_last_issue_online"].astype(str)  
         df["date_last_issue_online"] = df["date_last_issue_online"].str.split("-").str[0] 
-        df["date_last_issue_online"] = df["date_first_issue_online"].astype(int)  
+        df["date_last_issue_online"] = df["date_last_issue_online"].astype(int)  
     df = df[["publication_title",
              "print_identifier",
              "online_identifier",
@@ -76,6 +78,8 @@ for i in range(len(file_names)):
              "num_last_vol_online",
              "num_last_issue_online",
              "publisher_name"]]
+    df.drop(df[pd.isnull(df.date_first_issue_online) == True].index, inplace=True)
+    df.drop(df[pd.isnull(df.date_last_issue_online) == True].index, inplace=True)
     df["date_first_issue_online"] = df["date_first_issue_online"].astype(int)
     df["date_last_issue_online"] = df["date_last_issue_online"].astype(int)
     dataframes.append(df)
