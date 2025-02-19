@@ -29,12 +29,14 @@ df_repository = pd.read_csv(f"{path_rep}{file_repository}")
 for row in range(len(df_repository.index)): 
    if df_repository.loc[row, column_doi].startswith("10"):
       df_repository.loc[row, column_doi] = "https://doi.org/" + df_repository.loc[row, column_doi]
+df_repository[column_doi] = df_repository[column_doi].str.lower()
 
 # Open combined journal's list of all Swiss national licences journal titles 
 df_csal = pd.read_csv(f"{path_csal}{file_csal}")
 
 # Open combined article list of OpenAlex results for institution 
 df_openalex = pd.read_csv(f"{path_open}{file_combined}")
+df_openalex["Doi"] = df_openalex["Doi"].str.lower() 
  
 # compare found articles with articles in repository based on DOI in OpenAlex and DOIs in repository
 # write the result of the comparison in new colum "in_repository"
@@ -43,8 +45,8 @@ df_openalex["in_repository"] = df_openalex["Doi"].isin(df_repository[column_doi]
 # delete all articles that are already indexed in repository from OpenAlex list
 df_openalex.drop(df_openalex[df_openalex.in_repository == True].index, inplace=True)
   
-#filter articles, that are not already in repository and OA in a new dataframe
-df_oa = df_openalex.loc[df_openalex["OA"] == True]
+#filter articles, not already in repository and OA in a new dataframe
+df_oa = df_openalex[df_openalex["OA"].isin(["gold","hybrid","diamond"])]
 
 # compare if ISSN of found article matches online ISSN in CSAL lists
 df_openalex["issn_csal_o"] = df_openalex["ISSN"].isin(df_csal["online_identifier"]).astype(bool)
@@ -53,11 +55,10 @@ df_openalex["issn_csal_o"] = df_openalex["ISSN"].isin(df_csal["online_identifier
 df_openalex["issn_csal_p"] = df_openalex["ISSN"].isin(df_csal["print_identifier"]).astype(bool)
 
 #Filter dataframe for records that are not OA and where the ISSN matches one of the CSAL ISSNs 
-df_openalex = df_openalex.loc[(df_openalex["OA"] == False)
-                              & (df_openalex["issn_csal_p"] | df_openalex["issn_csal_o"]== True)]
+df_openalex = df_openalex[df_openalex["OA"].isin(["green","closed","bronze"]) 
+   & (df_openalex["issn_csal_p"] | df_openalex["issn_csal_o"]== True)]
 df_openalex.reset_index(drop=True, inplace=True)
    
-
 # compare if year of found articles matches period in CSAL lists
 df_csal["date_first_issue_online"].astype(int)
 df_csal["date_last_issue_online"].astype(int)
