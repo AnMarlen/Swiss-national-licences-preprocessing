@@ -43,6 +43,7 @@ def build_zhaw_works_url(ror_id, publishers):
         "title",
         "publication_year",
         "primary_location",
+        "open_access",
         "authorships"
     )
     
@@ -113,7 +114,7 @@ while has_more_pages and fewer_than_10k_results:
         doi = work["doi"]
         title = work["title"]
         year = work["publication_year"]
-        is_oa = work.get("primary_location", {}).get("is_oa")
+        is_oa = work.get("open_access", {}).get("oa_status")
         host = work.get("primary_location", {}).get("source", {}).get("host_organization_name")
         journal = work.get("primary_location", {}).get("source", {}).get("display_name")
         issn = work.get("primary_location", {}).get("source", {}).get("issn_l")
