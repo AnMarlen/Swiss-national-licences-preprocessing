@@ -38,9 +38,12 @@ soup_search = BeautifulSoup(page.content, "html.parser")
 try: 
     for link in soup_search.find_all('a', 
                                      attrs={'href': re.compile(phrase_link)}, 
-                                     limit=limit_links):
+                                     limit=limit_links,
+                                     string=re.compile("Excel Title List",re.IGNORECASE)):
         link = link.get("href")
         links.append(link)
+        link = link.replace("master/title-lists/", "")
+        link = link.replace("refs/heads/", "")
         file_names.append(link.removeprefix(phrase_link))
 
 except Exception as error:
